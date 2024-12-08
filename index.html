@@ -95,8 +95,8 @@
             <input type="text" id="fileName" placeholder="Nombre del archivo">
         </div>
         <div class="form-group">
-            <label for="filePath">Ruta del Archivo:</label>
-            <input type="text" id="filePath" placeholder="Ruta donde se encuentra el archivo">
+            <label for="filePath">Seleccionar Archivo:</label>
+            <input type="file" id="filePath" accept="*/*">
         </div>
         <div class="form-group">
             <label for="fileFolder">ID de la Carpeta:</label>
@@ -150,18 +150,20 @@
         // Función para subir archivo
         function subirArchivo() {
             const nombre_archivo = document.getElementById("fileName").value;
-            const ruta_archivo = document.getElementById("filePath").value;
+            const archivo = document.getElementById("filePath").files[0]; // Obtenemos el archivo seleccionado
             const id_carpeta = document.getElementById("fileFolder").value;
 
-            if (nombre_archivo && ruta_archivo && id_carpeta) {
+            if (nombre_archivo && archivo && id_carpeta) {
                 let id_archivo = archivos.length + 1;
-                archivos.push({ id: id_archivo, nombre_archivo, ruta_archivo, id_carpeta });
-                document.getElementById("fileOutput").innerHTML = `Archivo Subido: ${nombre_archivo} (ID: ${id_archivo})`;
+                let fileName = archivo.name;
+                let fileType = archivo.type;
+                let fileSize = archivo.size;
+                archivos.push({ id: id_archivo, nombre_archivo: fileName, fileType, fileSize, id_carpeta });
+                document.getElementById("fileOutput").innerHTML = `Archivo Subido: ${fileName} (ID: ${id_archivo}, Tamaño: ${fileSize} bytes)`;
                 document.getElementById("fileName").value = '';
-                document.getElementById("filePath").value = '';
                 document.getElementById("fileFolder").value = '';
             } else {
-                alert("Por favor, complete todos los campos.");
+                alert("Por favor, complete todos los campos y seleccione un archivo.");
             }
         }
     </script>
